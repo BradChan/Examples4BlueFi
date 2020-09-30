@@ -8,13 +8,9 @@ Welcome to Examples4BlueFi documentation!
 
 .. toctree::
    :maxdepth: 1
-   :caption: API and Usage
 
-.. toctree::
-    :caption: Examples4BlueFi
-    :numbered:
+   display/display.rst
 
-    hello/helloworld
   
 
 
