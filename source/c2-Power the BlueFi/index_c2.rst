@@ -10,4 +10,5 @@
    choose power.rst
    examination.rst
    Default program.rst
+   computer.rst
    status with led.rst

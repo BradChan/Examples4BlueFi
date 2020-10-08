@@ -8,6 +8,14 @@
    :maxdepth: 1
 
    data type.rst
-   variables.rst
-   flow control.rst
-   function module class.rst
+   List.rst
+   Tuple.rst
+   Dict.rst
+   Set.rst
+   If.rst
+   For.rst
+   While.rst
+   Try.rst
+   Function.rst
+   Class.rst
+   Module.rst
