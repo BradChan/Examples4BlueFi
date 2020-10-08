@@ -7,9 +7,39 @@ Welcome to Examples4BlueFi documentation!
 ===============================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   display/display.rst
+   c1-Know about BlueFi/index_c1.rst
+
+.. toctree::
+   :maxdepth: 2
+
+   c2-Power the BlueFi/index_c2.rst
+
+.. toctree::
+   :maxdepth: 2
+
+   c3-update program/index_c3.rst
+
+.. toctree::
+   :maxdepth: 2
+
+   c4-Python/index_c4.rst
+
+.. toctree::
+   :maxdepth: 2
+
+   c5/index_c5.rst
+
+.. toctree::
+   :maxdepth: 2
+
+   c6-Expansion board/index_c6.rst
+
+.. toctree::
+   :maxdepth: 2
+
+   c7-imagination/index_c7.rst
 
   
 
