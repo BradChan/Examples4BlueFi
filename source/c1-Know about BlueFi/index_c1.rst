@@ -11,5 +11,7 @@
    input.rst
    output.rst
    CPU.rst
-   Interface.rst
    NP.rst
+   Interface.rst
+   IO.rst
+   
