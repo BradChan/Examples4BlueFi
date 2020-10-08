@@ -7,7 +7,7 @@
 .. toctree::
    :maxdepth: 1
 
-   modify.rst
-   install MU editor.rst
-   connect BlueFi with MU.rst
-   save file.rst
+   c3-1 modify.rst
+   c3-2 install MU editor.rst
+   c3-3 connect BlueFi with MU.rst
+   c3-4 save file.rst

@@ -7,8 +7,8 @@
 .. toctree::
    :maxdepth: 1
 
-   choose power.rst
-   examination.rst
-   Default program.rst
-   computer.rst
-   status with led.rst
+   c2-1 choose power.rst
+   c2-2 examination.rst
+   c2-3 Default program.rst
+   c2-4 computer.rst
+   c2-5 status with led.rst

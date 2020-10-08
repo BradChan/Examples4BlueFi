@@ -7,11 +7,11 @@
 .. toctree::
    :maxdepth: 1
 
-   display.rst
-   input.rst
-   output.rst
-   CPU.rst
-   NP.rst
-   Interface.rst
-   IO.rst
+   c1-1 display.rst
+   c1-2 input.rst
+   c1-3 output.rst
+   c1-4 CPU.rst
+   c1-5 NP.rst
+   c1-6 Interface.rst
+   c1-7 IO.rst
    
