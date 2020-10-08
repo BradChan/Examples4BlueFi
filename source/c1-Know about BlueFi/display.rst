@@ -4,7 +4,7 @@
 
 在BlueFi上，最为显眼的就是位于BlueFi正面的LCD屏（如图1）。它是BlueFi上最主要的信息输出设备，通过显示图形或文字的形式来与外界进行信息的交互。
 
-.. image:: ../_static/images/LCD.png
+.. image:: ../_static/images/c1/LCD.png
   :scale: 100%
   :align: center
 

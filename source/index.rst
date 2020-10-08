@@ -40,8 +40,3 @@ Welcome to Examples4BlueFi documentation!
    :maxdepth: 2
 
    c7-imagination/index_c7.rst
-
-  
-
-
-
