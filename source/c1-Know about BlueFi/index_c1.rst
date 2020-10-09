@@ -2,16 +2,16 @@
 第1章 认识BlueFi
 ====================
 
-本章内容简介
+在本章中，我们主要从硬件的角度来了解BlueFi,目的是初步了解BlueFi可实现的功能。
 
 .. toctree::
    :maxdepth: 1
 
-   display.rst
-   input.rst
-   output.rst
-   CPU.rst
-   NP.rst
-   Interface.rst
-   IO.rst
+   c1-1 display.rst
+   c1-2 input.rst
+   c1-3 output.rst
+   c1-4 CPU.rst
+   c1-5 NP.rst
+   c1-6 Interface.rst
+   c1-7 IO.rst
    
