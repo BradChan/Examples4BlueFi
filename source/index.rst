@@ -29,7 +29,7 @@ Welcome to Examples4BlueFi documentation!
 .. toctree::
    :maxdepth: 2
 
-   c5/index_c5.rst
+   c5-lesson/index_c5.rst
 
 .. toctree::
    :maxdepth: 2
