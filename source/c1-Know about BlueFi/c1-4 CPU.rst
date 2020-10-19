@@ -12,7 +12,7 @@ BlueFi上的处理器位于BlueFi背面的右上方(见图1-6)，外形为一块
   :scale: 30%
   :align: center
 
-图1-6  BlueFi 主控CPU
+图1-7  BlueFi 主控CPU
 
 与电脑计算机不同的是，电脑计算机上的CPU、ROM、RAM等是分离的，而单片机上的处理器集成了所有的功能部件，
 被称为system-on-chip(SoC，片上系统)。

@@ -25,7 +25,7 @@
   :scale: 60%
   :align: center
 
-图1-9  BlueFi 金手指拓展接口
+图1-10  BlueFi 金手指拓展接口
 
 BlueFi的40-Pin扩展接口完全兼容microbit，因此可以使用microbit丰富的扩展板资源。
 使用40-Pin扩展接口可以帮助我们完成更为复杂的编程实例。
@@ -37,6 +37,6 @@ BlueFi上的扩展接口除了40-Pin扩展接口外，还有一个Mini Grove接�
   :scale: 55%
   :align: center
 
-图1-10  BlueFi Mini Grove接口
+图1-11  BlueFi Mini Grove接口
 
 Mini Grove接口以有线连接的形式，可以令BlueFi与其他主机之间按照I2C通讯协议进行数据传输，如使两块BlueFi进行通讯。
