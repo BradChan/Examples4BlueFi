@@ -2,14 +2,14 @@
 1.6 通讯接口
 ====================
 
-在BlueFi的背面，有三个通讯接口(见图1-7)，分别是USB接口、BlueTooth天线和WiFi天线，
+在BlueFi的背面，有三个通讯接口(见图1-10)，分别是USB接口、BlueTooth天线和WiFi天线，
 它们是BlueFi与其它主机或网络进行数据交流的通道。
 
 .. image:: ../_static/images/c1/通讯接口.png
   :scale: 30%
   :align: center
 
-图1-9  BlueFi 通讯接口
+图1-12  BlueFi 通讯接口
 
 在使用USB接口时，我们只需一根USB数据线就可以将BlueFi与手机、电脑或其它主机相连，BlueFi会以文件夹的形式出现在主机上，
 这时我们就可以通过任意的文本编辑器对BlueFi上的程序进行编辑，从而实现对程序的下载更新。
