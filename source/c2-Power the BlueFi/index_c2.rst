@@ -11,4 +11,4 @@
    c2-2 examination.rst
    c2-3 Default program.rst
    c2-4 computer.rst
-   c2-5 status with led.rst
+   c2-5 led status.rst
