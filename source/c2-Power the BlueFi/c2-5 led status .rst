@@ -2,22 +2,22 @@
 2.5 BlueFi的4种状态
 ====================
 
-在通电后，我们可以通过Reset按键(见图2-3)和代码编辑器(见第3章)使BlueFi进入4种不同模式以满足不同的需要。
+在通电后，我们可以通过Reset按键(见图2-4)和代码编辑器(见第3章)使BlueFi进入4种不同模式以满足不同的需要。
 
 .. image:: ../_static/images/c2/Reset按键.png
   :scale: 30%
   :align: center
 
-图2-3  BlueFi Reset按键
+图2-4  BlueFi Reset按键
 
 通过Reset按键可以帮助我们进入3种模式，分别为Python编辑模式、Bootloader模式、安全模式，
-下面通过图2-4流程图来帮助理解如何进入上述三种状态。
+下面通过图2-5流程图来帮助理解如何进入上述三种状态。
 
 .. image:: ../_static/images/c2/BlueFi三种状态.png
   :scale: 30%
   :align: center
 
-图2-4  BlueFi 三种状态
+图2-5  BlueFi 三种状态
 
 Python编辑模式是在平常使用BlueFi时最为常用的模式，只需正常通电即可进入该模式。在该模式下，第一颗RGB灯珠会显示绿色，
 它有两种状态，一种是常亮，一种是呼吸闪烁。绿灯常亮代表BlueFi正在执行代码程序；绿灯呼吸闪烁代表BlueFi已执行完成代码程序。
