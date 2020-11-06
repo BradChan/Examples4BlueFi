@@ -2,7 +2,7 @@
 4.1 数值类型及运算符
 ====================
 
-让我们开始Python的学习吧，在本小节中，会从基本的数值类型以及运算符出发，以几行简单的代码为大家介绍Python语言学习的基础内容。
+让我们开始Python的学习吧，在本节中，会从基本的数值类型以及运算符出发，以几行简单的代码为大家介绍Python语言学习的基础内容。
 如果有C语言的基础，相信大家能轻松理解Python语言的编程格式。
 
 4.1.1 算术运算符
@@ -158,7 +158,7 @@
 4.1.3 逻辑运算符
 ==========================
 
-介绍完了算数运算符和比较运算符后，还有最后一种运算符叫做逻辑运算符——and、or、not，它是用来判断操作数是否为零的。
+介绍完了算数运算符和比较运算符后，还有最后一种运算符叫做逻辑运算符——and、or、not，它用来判断操作数是否为零。
 
 .. code-block::  C
   :linenos:
@@ -206,14 +206,18 @@
   True
 
 仔细观察程序，可以发现：
-  and 从左到右，若所有值均为真，则返回后一个值，有一个假的值，则返回第一个假的值；
-  or 从左到右，返回遇到的第一个判断为真的值；
-  not 所有的非零数值的返回值为False，而0则返回True。
+
+  and：从左到右，若所有值均为真，则返回后一个值，有一个假的值，则返回第一个假的值；
+
+  or：从左到右，返回遇到的第一个判断为真的值；
+
+  not：所有的非零数值的返回值为False，而0则返回True。
 显然，在逻辑运算符的判断中，Python解释器将所有的非零数值都当作是True，把0当作是False。
 
 4.1.4 整数
 =============
 
+由于在Python3.x与在Python2.x中关于整数类型的分类有所不同，在此，对整数部分内容进行单独讲解。
 在Python3.x中，无论整数数值的大小，整数只有一种类型——长整数，而在Python2.x中，整数的类型被分为int(32位整数)和long int(长整数)。
 长整数不受位数的限制，可以扩展到可用内存的最大值。
 
@@ -241,10 +245,140 @@
 4.1.5 字符串
 ==============
 
+在本章的开始部分，使用了print函数来打印“Hello World!”语句。那么，对于Python解释器来说，“Hello World!”是什么类型的数据呢？字符串类型。
+在Python中，我们可以使用双引号("")或单引号('')来定义字符串。
 
+.. code-block::  C
+  :linenos:
+
+  >>> "Hello world!"
+  'Hello world!'
+  >>> 'Hello world!'
+  'Hello world!'
+
+其输出的结果都是一样的，那为什么需要两种定义方式呢？请看下例。
+
+.. code-block::  C
+  :linenos:
+
+  >>> "I'm John"
+  "I'm John"
+  >>> 'I'm John'
+    File "<stdin>", line 1
+      'I'm John'
+         ^
+  SyntaxError: invalid syntax
+
+Python解释器成功将第一个语句"I'm John"打印了出来，而无法打印第二个语句'I'm John'。这是因为双引号与单引号是两两对应的关系，
+在第二个语句中,Python读取到'I'后,认为已读取完成一个字符串，无法识别之后的字符，从而产生错误。
+
+相信你已经明白了为何要用两种定义方式来定义字符串。其实，除了用双引号与单引号共同使用来区分字符串的方式外，还有一种使用反斜杠“\”
+来对双引号或单引号进行转义，让Python解释器理解中间的引号是字符串中的一个字符。
+
+.. code-block::  C
+  :linenos:
+
+  >>> 'I\'m John'
+  "I'm John"
+
+尽管反斜杠不如双引号与单引号共同使用来的直观，但在同时使用了双引号和单引号的长语句中，我们不得不使用反斜杠来进行转义。
+
+如何避免该长语句的出现呢？Python提供字符串的拼接操作。
+
+.. code-block::  C
+  :linenos:
+
+  >>> "Hello " + "world!"
+  'Hello world!'
+  >>> "Hello " "world!"
+  'Hello world!'
+
+无论是使用“+”连接字符串还是连续写下两个字符串，Python都会将其自动拼接为一个字符串，甚至支持用乘法来重复打印字符串。
+
+.. code-block::  C
+  :linenos:
+
+  >>> "Hello! " * 3
+  'Hello! Hello! Hello! '
+
+通过之前的程序，相信大家已经知道了创建字符串的基本操作，接下来介绍一些处理字符串的常用操作。
+
+.. code-block::  C
+  :linenos:
+
+  >>> "This is a string"[0]
+  'T'
+  >>> "This is a string"[0:1]
+  'T'
+  >>> "This is a string"[0:4]
+  'This'
+
+在Python中，字符串可以被当作是一种字符列表，通过类似于列表的切片操作，单独打印字符串中被选择的字符。
+
+在实际的编程过程中，很少会直接输出一个固定的语句，我们经常会希望让输出语句中的变量会随着程序进程的变化而变化。
+在Python2.6以前版本中，使用%来实现该操作。
+
+.. code-block::  C
+  :linenos:
+
+  >>> x = 'apple'
+  >>> y = 'lemon'
+  >>> "The items in the basket are %s and %s." % (x,y)
+  'The items in the basket are apple and lemon.'
+
+其中的x、y值为变量，可以根据需要任意修改，但要注意的是，x、y的数据类型要跟字符串中的%类型相对应。例如，在本例中，x、y是字符串类型的数据，
+字符串中就为%s。因此，在Python2.6版本之后，新增了format函数来代替%进行格式化字符串。
+
+.. code-block::  C
+  :linenos:
+
+  >>> x = 'apple'
+  >>> y = 'lemon'
+  >>> "The items in the basket are {0} and {0}.".format(x , y)
+  'The items in the basket are apple and lemon.'
+  >>> "The items in the basket are {1} and {0}.".format(x , y)
+  'The items in the basket are lemon and apple.'
+  "The items in the basket are {0} and {0}.".format(x , y)
+  'The items in the basket are apple and apple.'
+
+与%相比，format函数具有以下优点：
+
+  (1) 无需关心输入参数的数据类型。
+  (2) 输出多个参数的顺序可以随意调节。
+  (3) 可重复输出同一参数。
+
+除了format函数外，Python还内置有非常多的处理字符串的函数，例如，find,返回字符串中的某个单词或字符位于字符串的位置；replace，
+返回被替代后的字符串等等。在此，不对这些函数做过多的介绍。
 
 4.1.6 变量
 ==============
 
+变量，是除了整数、浮点数、字符串等数据类型外，需要理解的又一个数据概念。我们能在程序的各个位置看到变量的存在，无论是输入、输出，还是中间的过程量。
+变量在被使用之前，需要被赋值，可以将整数、浮点数、字符串等数据类型赋给变量。在Python中，赋值的操作并不复杂，
+且无需像C语言中一样事先声明变量的数据类型。
 
+.. code-block::  C
+  :linenos:
 
+  >>> x = 1
+  >>> x
+  1
+
+  >>> x = "Hello"
+  >>> x
+  'Hello'
+
+而没有事先赋值的变量，会引起Python报错。
+
+.. code-block::  C
+  :linenos:
+
+  >>> y
+  Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+  NameError: name 'y' is not defined
+
+在定义变量时，需注意变量的命名规则，变量只能由字母、数字和下划线组成，且不能以数字开头。
+
+在介绍完基本的数值类型、运算符和变量的定义后，后面4个小节将介绍Python的数据结构，数据结构可以统称为容器。
+序列（如列表、元组和字符串）、映射（如字典）以及集合（set）是三类主要的容器，只有掌握了数据结构，才能对程序的结构进行优化。
