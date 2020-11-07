@@ -137,7 +137,7 @@
   NameError: name 'true' is not defined
 
 布尔类型常常被用于If、For、While等判断或循环语句中作为判断或循环中断的标志位，其中，不免伴随着数值比较的过程，
-这就要用到比较运算符“<、>、==、>=...”。
+这就要用到比较运算符“<、>、==、>=、……”。
 
 .. code-block::  C
   :linenos:
