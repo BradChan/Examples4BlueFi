@@ -47,8 +47,8 @@ Python作为一款交互式解释器，以命令行的形式让使用者可以�
    c4-4 Dict.rst
    c4-5 Set.rst
    c4-6 If.rst
-   c4-7 For.rst
-   c4-8 While.rst
+   c4-7 While.rst
+   c4-8 For.rst
    c4-9 Try.rst
    c4-10 Function.rst
    c4-11 Class.rst
