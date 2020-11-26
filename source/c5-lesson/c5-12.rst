@@ -1,9 +1,185 @@
 ====================
-5.12 Radio通讯
+5.12 感知姿态变化
 ====================
 
-无线电通讯所需条件：发送者和接收者使用相同的频道
+在第一章介绍硬件的时候，已经对BlueFi上有关姿态感知的传感器作了介绍，详情请看1.2节的内容。
+本节中将从BlueFi上的加速度计、陀螺仪和地磁计这三部分内容来获取BlueFi的姿态信息。
 
-程序编写格式
+5.12.1 加速度计
+==================
 
-发送示例：一对一，一对多，群组
+BlueFi采用3D的动静态型加速度计，即使在静止状态，BlueFi的加速度传感器也能给出自己的准确姿势。
+
+1. 加速度的三个分量
+------------------------
+
+下面我们使用一个简单示例来观察BlueFi给出的三个方向上的加速度变化信息。示例代码如下：
+
+.. code-block::  C
+  :linenos:
+
+  import time
+  from hiibot_bluefi.sensors import Sensors
+  from hiibot_bluefi.screen import Screen
+  screen = Screen()
+  sensors = Sensors()
+  acce = sensors.acceleration
+  show_data = screen.simple_text_display(title="BlueFi Accelerations", title_scale=1, text_scale=2)
+  while True:
+      acce = sensors.acceleration
+      show_data[2].text = "X: {:.2f}".format(acce[0])
+      show_data[2].color = screen.RED
+      show_data[3].text = "Y: {:.2f}".format(acce[1])
+      show_data[3].color = screen.GREEN
+      show_data[4].text = "Z: {:.2f}".format(acce[2])
+      show_data[4].color = screen.BLUE
+      show_data.show()
+      time.sleep(0.1)
+
+你可以尝试让BlueFi平躺、竖立、倒立、侧立等姿势 并观察三个加速度分量(acce[0]、acce[1]、acce[2])与姿态之间关系，
+并找出加速度每一个分量的最小值和最大值(加速度每一个分量的范围)。
+
+建议你设计数据记录表，将本示例给出的加速度三分量的值与姿态之间关系记录下来，然后根据这一关系确定姿态和加速度数据之间变化规律。
+
+2. RGB灯珠与加速度计
+---------------------
+
+BlueFi的5颗RGB像素彩灯是一种特殊的显示元件，响应速度快能呈现动感效果。在前一个示例中我们把加速度的三个分量的数值显示在LCD屏幕上，
+当你旋转BlueFi改变其姿态时，观察屏幕的数值并不方便。那我们就想到其他的显示方式，
+譬如我们用5颗RGB像素灯珠发出的光颜色来指示加速度的三个分量。巧合的是，BlueFi加速度传感器能给出三个分量值，
+而RGB像素灯珠的颜色也正好是三个分量。下面的示例程序中，我们将BlueFi的加速度传感器三个分量分别映射为像素灯珠的RGB三基色的三个分量。
+示例代码如下：
+
+.. code-block::  C
+  :linenos:
+
+  import time
+  from hiibot_bluefi.sensors import Sensors
+  from hiibot_bluefi.basedio import NeoPixel
+  sensor = Sensors()
+  pixels = NeoPixel()
+
+  def map(v):
+      return  abs( int((v/10.24)*255.0) )
+
+  while True:
+      x, y, z = sensor.acceleration
+      pixels.fillPixels( ( map(x), map(y), map(z) ) )
+      time.sleep(0.1)
+
+很酷！这么短一点代码就能实现如此酷的效果。这个示例的程序结构已经被我们在前几节中反复使用过，我们定义来一个函数来处理数据映射：
+把加速度的某个分量值(范围-10.24～+10.24)映射成RGB三基色某个分量(范围0~255)。
+
+
+试着改变BlueFi的姿态，你发现 5颗RGB像素的颜色与BlueFi姿态之间什么关系？
+
+正面朝上时，为什么是蓝色？根据本示例代码，以及加速度传感器三分量、姿态之间关系，请你说明这个原因。
+
+5.12.2 陀螺仪
+=================
+
+将下面的示例程序保存到BlueFi的/CIRCUITPY/code.py文件中，在BlueFi执行示例程序期间，用手慢速或快速地改变BlueFi的姿态，
+并保持该姿态，观察并记录传感器的数据变化规律。示例代码如下：
+
+.. code-block::  C
+  :linenos:
+
+  import time
+  from hiibot_bluefi.sensors import Sensors
+  from hiibot_bluefi.screen import Screen
+  screen = Screen()
+  sensors = Sensors()
+  gyro = sensors.gyro
+  show_data = screen.simple_text_display(title="BlueFi Gyroscope", title_scale=1, text_scale=2)
+  while True:
+      gyro = sensors.gyro
+      show_data[2].text = "X: {:.2f}".format(gyro[0])
+      show_data[2].color = screen.RED
+      show_data[3].text = "Y: {:.2f}".format(gyro[1])
+      show_data[3].color = screen.GREEN
+      show_data[4].text = "Z: {:.2f}".format(gyro[2])
+      show_data[4].color = screen.BLUE
+      show_data.show()
+      time.sleep(0.1)
+
+本示例程序与加速度传感器的第一个应用示例非常相似，我们将陀螺仪传感器的三个分量以多行文本形式显示在不同行，颜色也各部相同，
+很容易分辨每一个分量值的变化。
+
+你从自己记录的数据中发现什么规律了吗？譬如，将BlueFi平放在桌面上，绕着竖直方向且贴着桌面瞬时针方向旋转BlueFi，
+你会明显地观察到仅有蓝色(z方向分量)数值变大，另外两个数值几乎保持不变；同样地，但逆时针旋转BlueFi时，
+明显看到只有z方向分量数值为负数且变大。无论你怎么改变，只要停止旋转，保持BlueFi稳定不动，三个分量的数值几乎都回到0.0，
+并在0.0附近波动。
+
+陀螺仪只能感知姿态改变或运动发生变化时的角速度，这个结论你只需要继续前一个示例的试验就可以知道。譬如把BlueFi平放在桌面上，
+用手推着他快速地贴着桌面平移，无论是沿x-或y-方向陀螺仪给出的数值都不变化，
+我们知道这个期间沿x-或y-方向的线速度一定有剧烈变化(如果你根加速度分量对比呢)。如果我们拿着BlueFi绕着x-或y-方向旋转，
+你会发现其中一个分量值明显变大，符号只是代表旋转的方向(逆时针或顺时针)。
+
+根据数学知识，已知初始值(当前静止状态的角度)、角速度和运动时间，我们通过对这段运动时间内的角速度积分将会得到这段运动时间之后的角度。
+基于这一数学依据，我们很容易计算出物体的角度。
+
+5.12.3 地磁计
+==================
+
+1. 地磁计的三个分量
+---------------------
+
+使用下面的程序示例，观察地磁计数据的变化规律。示例程序如下：
+
+.. code-block::  C
+  :linenos:
+
+  import time
+  from hiibot_bluefi.sensors import Sensors
+  from hiibot_bluefi.screen import Screen
+  screen = Screen()
+  sensors = Sensors()
+  magn = sensors.magnetic
+  show_data = screen.simple_text_display(title="BlueFi Magnetometer", title_scale=1, text_scale=2)
+  while True:
+      magn = sensors.magnetic
+      show_data[2].text = "X: {:.2f}".format(magn[0])
+      show_data[2].color = screen.RED
+      show_data[3].text = "Y: {:.2f}".format(magn[1])
+      show_data[3].color = screen.GREEN
+      show_data[4].text = "Z: {:.2f}".format(magn[2])
+      show_data[4].color = screen.BLUE
+      show_data.show()
+      time.sleep(0.1)
+
+旋转BlueFi并观察地磁计给出的三个分量数值的变化通过本示例的数据信息，你观察到地磁计的数据与BlueFi的姿态和朝向之间存在什么样的关系？
+
+2. 指北针
+------------
+
+我们修改前一个示例，增加北方的指示，我们以BlueFi金手指的方向为准，当BlueFi的LCD显示器保持与地水平面平行时，
+金手指对着正北方时地磁计指北针归零，旋转BlueFi过程中，将给出BlueFi的金手指水平方向与正北方的夹角。示例程序如下：
+
+.. code-block::  C
+  :linenos:
+
+  import time
+  from hiibot_bluefi.sensors import Sensors
+  from hiibot_bluefi.screen import Screen
+  screen = Screen()
+  sensors = Sensors()
+  sensors.MagnRange = 0
+  magn = sensors.compassHeading
+  show_data = screen.simple_text_display(title="BlueFi Magnetometer", title_scale=1, text_scale=2)
+  while True:
+      magn = sensors.magnetic
+      show_data[2].text = "X: {:.2f}".format(magn[0])
+      show_data[2].color = screen.RED
+      show_data[3].text = "Y: {:.2f}".format(magn[1])
+      show_data[3].color = screen.GREEN
+      show_data[4].text = "Z: {:.2f}".format(magn[2])
+      show_data[4].color = screen.BLUE
+      show_data[5].text = "North: {}".format(sensors.compassHeading)
+      show_data[5].color = screen.YELLOW
+      show_data.show()
+      time.sleep(0.1)
+
+在前一个示例的基础上，把BlueFi的金手指水平方向与正北方的夹角显示在多行文本的第5行，并使用黄色字体。
+
+现在你知道为什么指南针并不指向南方而是指向北方的原因了吗？
+

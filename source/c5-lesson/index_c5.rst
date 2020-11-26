@@ -7,8 +7,6 @@
 
 养兵千日，用兵一时，在下面的章节中，你将把你学会的Python编程、BlueFi硬件以及MU编辑器等知识付诸实践。
 
-
-
 .. toctree::
    :maxdepth: 1
 
@@ -27,3 +25,4 @@
    c5-13.rst
    c5-14.rst
    c5-15.rst
+   c5-16.rst

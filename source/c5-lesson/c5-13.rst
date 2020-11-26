@@ -1,5 +1,98 @@
 ====================
-5.13 BlueTooth
+5.13 Radio通讯
 ====================
 
-蓝牙功能可将BlueFi与计算机连接在一起，并可通过编程实现用BlueFi上的按键代替计算机键盘上的按键。（蓝牙键盘）
+从本节开始，我们将从零开始掌握无线电波通讯的原理和实现方法。了解这些知识的目的是为了更好地掌握蓝牙、
+WiFi等无线通讯技术的原理和实现方法。
+
+无线电波的广播通讯是什么样的呢？我们今天可以使用BlueFi来模拟他，所以本节课我们不直接使用BlueTooth和WiFi这样的现代无线电通讯技术，
+反而采用最原始的无线电波的广播通讯，我们能够体验到那个时代人们的通讯技术，也有助于我们理解蓝牙和WiFi技术原理。
+
+5.13.1 发送者
+--------------
+
+我们首先使用BlueFi设计一个无线电波的信息发送者/广播程序。该程序实现如下功能：当按下按钮A时，发送“BlueFi-A:1xx”；
+当按下按钮B时，发送“BlueFi-B:2xx”。这两条信息每次都不完全一样，因为我们使用随机数发生器生成几个数据填充到信息的最后两个位置。
+Python脚本程序如下：
+
+.. code-block::  C
+  :linenos:
+
+  import time, random
+  from hiibot_bluefi.basedio import Button
+  from adafruit_ble_radio import Radio
+  button = Button()
+  rfc = Radio(channel=8)  # sender and receiver must use a same channel
+  myhead = "BlueFi-"
+  msgA = myhead + "A:{}"
+  msgB = myhead + "B:{}"
+  while True:
+      button.Update()
+      if button.A_wasPressed:
+          ra=random.randint(100,200)
+          rfc.send( msgA.format(ra) )
+          print( msgA.format(ra) )
+      if button.B_wasPressed:
+          rb=random.randint(200,300)
+          rfc.send( msgB.format(rb) )
+          print( msgB.format(rb) )
+      time.sleep(0.1)
+
+5.13.2 接收者
+-----------------
+
+然后我们需要设计一个无线电波的信息接受者/侦听程序。该程序实现如下功能：将接收到的全部信息都显示到LCD屏幕上。
+无线电波的信息接收者程序如下：
+
+.. code-block::  C
+  :linenos:
+
+  import time
+  from hiibot_bluefi.basedio import NeoPixel
+  from adafruit_ble_radio import Radio
+  pixels = NeoPixel()
+  pixels.brightness = 0.2
+  rfc = Radio(channel=8) # sender and receiver must use a same channel
+  while True:
+      rmsg = rfc.receive_full()
+      if rmsg:
+          pixels.pixels[0]=(0,255,0)
+          pixels.pixels.show()
+          rmsg_bytes = rmsg[0]
+          rmsg_strength = rmsg[1]
+          rmsg_time = rmsg[2]
+          print("Recieved {} (strength {}, at time {})".format(
+                rmsg_bytes, rmsg_strength, rmsg_time))
+          pixels.pixels[0]=(0,0,0)
+          pixels.pixels.show()
+      pass
+
+5.13.3 广播通讯
+===================
+
+至此，我们已经把无线电波的广播通讯实验程序都已准备妥当，为了能够更好地体验无线电波的广播通讯，
+建议你约上3名以上同学都带着各自的BlueFi, 或者你自己至少有3个或更多个BlueFi就不需要约其他同学，你一个人就可以完成本节内容的体验。
+
+    1. 将某个BlueFi当作无线电波的信息发送者，将本节的第1个示例程序保存到这个BlueFi的/CIRCUITPY/code.py文件中。
+    2. 将另一个BlueFi当作无线电波的信息接收者，将本节的第2个示例程序保存到这个BlueFi的/CIRCUITPY/code.py文件中。请务必注意，这个程序的无线电频道必须与发送者的频道保持一致。
+    3. 再将另一个BlueFi也当作无线电波的信息接收者，将本节的第2个示例程序保存到这个BlueFi的/CIRCUITPY/code.py文件中，但修改无线电频道与前两个BlueFi的频道不同。
+
+无线电波的广播通讯实验分两步：
+
+    1. 第一步，使用上述的三个或以上个BlueFi，并确保这些BlueFi之间的距离都在10米左右的范围内，按下信息发送者的A或B按钮，观察信息接收者的反应。
+    2. 第二步，将所有信息接收者的BlueFi的程序中无线电频道全部设置成与信息发布者的频道保持一致，再重复试验。
+
+试验之后，将所有同学组织在一起讨论本试验所看到的、自己所理解的，以及自己所思考的关于无线电波的广播通讯。
+
+通过本节教程的学习，最后请大家谈一谈对BlueTooth和WiFi通讯技术的认识。
+
+
+
+
+
+
+
+
+
+
+
