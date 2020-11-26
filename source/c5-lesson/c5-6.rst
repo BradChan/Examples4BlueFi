@@ -1,7 +1,147 @@
 ====================
-5.6 温湿度传感器
+5.6 听到声音
 ====================
 
-检测环境温湿度，将数值显示在LCD屏上。
+标准的桌面计算机内置声音的输入和输出设备，此类音频接口俗称声卡，将耳机或音箱音频线插入声卡后我们能听到声音，
+将麦克风音频线插入声卡后可以使用计算机录音。BlueFi也带有与声卡相似的功能，上一节我们了解了BlueFi音频输出的用法，
+包括输出基本音调和播放音频文件。这一节我们来了解BlueFi的“耳朵”。
 
-通过扇风等措施，改变环境温湿度，观察传感器是否灵敏。
+5.6.1 “看见”声音
+==================
+
+耳朵能听到声音，我们这一节的第一个示例打算让声音可见，就是能看见声音！也就是使用计算机记录并绘制声音信号，请看下面的程序：
+
+.. code-block::  C
+  :linenos:
+
+  import time
+  from hiibot_bluefi.soundio import SoundIn
+  mic = SoundIn(numSamples=8)
+  while True:
+      sound = (mic.sound_level,)
+      print(sound)
+      time.sleep(0.01)
+
+仅用7行程序语句就可以让声音可见！在BlueFi上执行本示例程序，我们使用MU编辑器的“绘图器”就可以记录并绘制一段声音的形状。
+
+下面对程序代码进行讲解，前两行程序不必赘述，第3行程序是将SoundIn类实例化为mic，即启用BlueFi的麦克风，并指定每次采样的数据个数为8。
+第5行程序是将mic的sound_level属性(连续8次声音采样的均方差)值以元组的形式赋给sound变量，为什么要用元组呢？是因为绘图器只能读取元组类型的数据。
+第六行将sound变量打印到LCD屏(控制台)，绘图器从控制台中获取数据进行绘图，绘制曲线如下图所示：
+
+.. image:: ../_static/images/c5/声音曲线.png
+  :scale: 35%
+  :align: center
+
+图5-1  声音曲线
+
+从该程序中的第3行可以看出，我们不是直接读取麦克风的瞬时输出来绘制声音图，而是连续8次采样值进行均方差计算，用他们的均方差值当作音频信号。这是因为，
+序列信号的均方差描述的是信号波动范围，或者说方差代表的是信号中交流成分的强弱，即信号的交流功率。
+我们在上图中记录的是声音信号强弱的变化，建议你修改“numSamples=8”这个参数，试一试更多或更少的单次采样数的声音形状变化规律，
+从而为某些特定场景的声音记录设备确定一个合理的采样处理方案。
+
+5.6.2 随节奏跳动的光
+======================
+
+或许你已经发现，只要我们使用“print(xxx)”将变量或字符串显示到LCD屏幕(控制台)时，程序的执行速度明显下降，
+这是因为“print()” 函数使用串口将变量或字符串发送控制台和LCD屏幕上会消耗大量的时间，这些时间消耗甚至影响声音记录的速度。
+
+而RGB灯珠的响应速度很快，而且有5颗灯珠，可以用这些灯珠把声音信号的变化强弱表示出来，这几乎让人感觉不到显示数据的延迟。
+
+.. code-block::  C
+  :linenos:
+
+  import time
+  from hiibot_bluefi.basedio import NeoPixel
+  from hiibot_bluefi.soundio import SoundIn
+  pixels = NeoPixel()
+  pixels.brightness = 0.2
+  mic = SoundIn(numSamples=8)
+  vmin = mic.sound_level
+  vamx = vmin + 500
+  while True:
+      pixels.drawPillar(mic.sound_level, vmin, vamx)
+      time.sleep(0.01)
+
+当你把本示例程序保存为/CIRCUITPY/code.py文件后，播放节奏明显的音乐、敲桌子等方式制造点很有节奏的动静，
+你会发现BlueFi灯珠上彩色光柱几乎完全与节奏同步跳动，效果非常有趣。
+
+下面是程序分析：
+
+    * 第1行，导入一个Python内建的模块“time”。
+    * 第2行，从“/CIRCUITPY/lib/hiibot_bluefi/basedio.py”模块中导入一个名叫“NeoPixel”的类。
+    * 第3行，从“/CIRCUITPY/lib/hiibot_bluefi/soundio.py”模块中导入一个名叫“SoundIn”的类。
+    * 第4行，将导入的“NeoPixel”类实例化为一个实体对象，名叫“pixels”。
+    * 第5行，设置pixels的brightness属性(即RGB像素彩灯的整体亮度)为0.2，合理取值范围：0.05 ~ 1.0(亮度最大)。
+    * 第6行，将导入的“SoundIn”类实例化为一个实体对象，名叫“mic”。
+    * 第7行，定义一个变量名叫vmin，并使用mic的属性值sound_level(麦克风感知到的声音高低)作为初始值。
+    * 第8行，定义一个变量名叫vmax，并使用“vmin+500”作为初始值。
+    * 第9行，开始一个无穷循环的程序块。
+    * 第10行，(无穷循环程序块的第1行)，调用pixels的函数drawPillar，使用mic的属性值(麦克风感知到的声音高低)作为变量画柱状图，且最小值为vmain和最大值为vmax。
+    * 第11行，(无穷循环程序块的第2行)，执行time的sleep方法，参数为0.01秒。。
+
+如果你修改实例化SoundIn类时将numSamples参数改为更大的值，尤其超过500时，你会发现光效的跳动与节奏变化之间存在明显的滞后。
+我们使用numSamples=8时，完全无滞后感。这是为什么？
+
+5.6.3 闻声开启的路灯
+======================
+
+晚上你走过一个漆黑的楼道时，会不会下意识地拍拍巴掌或跺跺脚希望能唤醒楼道的照明灯？生活中很多楼道灯都是这样设计的，
+有人路过时被声音唤亮，延迟一会儿之后自动关闭，这样的工作模式可以节约耗电。
+
+我们下面使用BlueFi的麦克风和5颗RGB像素灯珠来实现这一功能的楼道节能灯：
+
+.. code-block::  C
+  :linenos:
+
+  import time
+  from hiibot_bluefi.basedio import NeoPixel
+  from hiibot_bluefi.soundio import SoundIn
+  pixels = NeoPixel()
+  pixels.brightness = 0.2
+  pixels.clearPixels()
+  delayCnt = 0
+  mic = SoundIn(numSamples=8)
+
+  def delayoff():
+      global delayCnt
+      time.sleep(0.01) 
+      if delayCnt<=0:
+          pixels.clearPixels()
+      else:
+          delayCnt -= 1
+
+  while True:
+      delayoff()
+      if mic.loud_sound(200):
+          pixels.fillPixels((255,255,255))
+          delayCnt = 1000
+
+
+看起来这个程序代码有点长，下面我们逐行分析代码的执行效果：
+
+    * 第1行，导入一个Python内建的模块“time”。
+    * 第2行，从“/CIRCUITPY/lib/hiibot_bluefi/basedio.py”模块中导入一个名叫“NeoPixel”的类。
+    * 第3行，从“/CIRCUITPY/lib/hiibot_bluefi/soundio.py”模块中导入一个名叫“SoundIn”的类。
+    * 第4行，将导入的“NeoPixel”类实例化为一个实体对象，名叫“pixels”。
+    * 第5行，设置pixels的brightness属性(即RGB像素彩灯的整体亮度)为0.2，合理取值范围：0.05 ~ 1.0(亮度最大)。
+    * 第6行，调用pixels的函数clearPixels，关闭所有RGB像素灯珠。
+    * 第7行，定义一个变量名叫delayCnt，用于处理节能开启后自动延迟关闭的延迟时长，初始赋0。
+    * 第8行，将导入的“SoundIn”类实例化为一个实体对象，名叫“mic”。
+    * 第10行，开始定义一个函数，名为delayoff，无输入参数无返回值，该函数用来处理灯珠开启后自动延时关闭的工作。
+    * 第11行，(函数delayoff程序块的第1行)，声明本函数中使用到的全局变量delayCnt。
+    * 第12行，(函数delayoff程序块的第2行)，执行time的sleep方法，参数为0.01秒。
+    * 第13行，(函数delayoff程序块的第3行)，判断变量delayCnt的值是否小于等于0。
+    * 第14行，(函数delayoff程序块的第4行)，如果变量delayCnt的值小于等于0，调用pixels的函数clearPixels关闭全部灯珠。
+    * 第15行，(函数delayoff程序块的第5行)，否则，即如果变量delayCnt的值大于0。
+    * 第16行，(函数delayoff程序块的第6行)，如果变量delayCnt的值大于0，将该变量自减1。
+    * 第18行，开始一个无穷循环的程序块。
+    * 第19行，(无穷循环程序块的第1行)，调用自定义函数delayoff，处理延时自动关闭灯珠的事务。
+    * 第20行，(无穷循环程序块的第2行)，根据mic的函数loud_sound返回值判断是否感知到很大的声音(阈值设置为200)，如果条件为True，执行下面的程序块。
+    * 第21行，(无穷循环程序块的第3行，逻辑判断条件为True时执行的程序块第1行)，调用pixels的函数fillPixels让所有灯珠发出白色照明光。
+    * 第22行，(无穷循环程序块的第3行，逻辑判断条件为True时执行的程序块第2行)，设置变量delayCnt为1000。
+
+这个示例程序中，我们声明并定义一个名叫“delayoff”的函数来处理自动延迟关闭灯珠，在主程序的“while True:”循环中调用该函数，
+主循环中只是根据mic的函数loud_sound返回值判断是否感知到很大的声音，如果感知到很大声音(代表有人需要开灯照明)则让灯珠亮起，
+并设置变量delayCnt的初始值为1000。在delayoff函数中，我们会不停地减少这个变量，当该变量变为0时关闭全部灯珠，达到延时关灯的效果。
+
+
