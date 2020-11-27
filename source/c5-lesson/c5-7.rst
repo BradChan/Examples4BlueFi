@@ -331,7 +331,7 @@ LCD显示屏的是一种被动显示器，屏幕本身不会发光，必须借�
 本示例在BlueFi上的执行结果如下图：
 
 .. image:: ../_static/images/c5/BlueFi轮廓图.png
-  :scale: 35%
+  :scale: 80%
   :align: center
 
 图5-2  BlueFi轮廓图
