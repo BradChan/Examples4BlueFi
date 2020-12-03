@@ -92,35 +92,58 @@ MU编辑器的REPL模式通过控制台实现人-机交互(用户输入一个脚
 
 REPL模式除了可以对程序进行单步执行外，还具有以下4种功能：help(“modules”)、help(random)、random.(+Tab)、dir(random)。
 
-如果想了解BlueFi支持多少种内建的(built-in)模块，可以在“>>”提示符后面输入“help(“modules”)”，将得到下图3-11的执行结果输出：
+如果想了解BlueFi支持多少种内建的(built-in)模块，可以在“>>”提示符后面输入“help(“modules”)”，将得到下面的执行结果输出：
 
-.. image:: ../_static/images/c3/help(“modules”).jpg
-  :scale: 50%
-  :align: center
+.. code-block::  C
+  :linenos:
 
-图3-11  help(“modules”)
+  >>> help('modules')
+  __main__          bitbangio         json              struct
+  _bleio            board             math              supervisor
+  _os               builtins          microcontroller   sys
+  _pixelbuf         busio             micropython       terminalio
+  _time             collections       neopixel_write    time
+  analogio          digitalio         os                touchio
+  array             displayio         pulseio           ulab
+  audiobusio        errno             random            usb_hid
+  audiocore         fontio            re                usb_midi
+  audiomixer        framebufferio     rgbmatrix         vectorio
+  audiomp3          gamepad           rotaryio
+  audiopwmio        gc                rtc
+  binascii          io                storage
+  Plus any modules on the filesystem
 
 你是否发现前面用过的“random”在其中吗？
 
 如果想了解一个模块所支持的全部API接口，尝试使用“help(module name)”。以Python内建的“random”为例，
 首先在REPL模式输入“import random”并按回车键，即导入random模块。然后输入“help(random)”，
-BlueFi将会在控制台上输出内建的“random模块”所支持的所有接口，如下图3-12所示：
+BlueFi将会在控制台上输出内建的“random模块”所支持的所有接口。
 
-.. image:: ../_static/images/c3/help(random).jpg
-  :scale: 50%
-  :align: center
+.. code-block::  C
+  :linenos:
 
-图3-12  help(random)
+  >>> import random
+  >>> help(random)
+  object <module 'random'> is of type module
+    __name__ -- random
+    seed -- <function>
+    getrandbits -- <function>
+    randrange -- <function>
+    randint -- <function>
+    choice -- <function>
+    random -- <function>
+    uniform -- <function>
 
 在导入“random”模块之后，使用“help(random)”语句将会给我们列举random模块所支持的全部类(class)、变量和方法(function)。 
 
 下面仍以random模块为例，使用“dir(random)”将以列表(list)格式显示出random模块所支持的类、变量和方法的名称，如下图3-13所示：
 
-.. image:: ../_static/images/c3/dir(random).jpg
-  :scale: 50%
-  :align: center
+.. code-block::  C
+  :linenos:
 
-图3-13  dir(random)
+  >>> import random
+  >>> dir(random)
+  ['__class__', '__name__', 'choice', 'getrandbits', 'randint', 'random', 'randrange', 'seed', 'uniform']
 
 如果你曾经使用过一些支持面向对象编程的编辑软件，在编辑程序时，“输入一个对象名称和点，然后按Tab键，
 编辑软件会立即把这个对象的所有接口方法都列举出来”这种辅助式交互可以让程序员不必记住一个对象的全部接口，
@@ -130,13 +153,15 @@ BlueFi将会在控制台上输出内建的“random模块”所支持的所有�
 
 因此，在使用BlueFi学习Python编程时，你不必记住每一个模块的全部接口，当你需要了解一个模块有哪些具体接口(包括类、变量、方法等)时，
 在串口控制台按“Ctrl+C”进入REPL模式，输入“import module name”并按回车，
-然后输入“module name.”并按Tab键，你将看到这个模块所支持的所有接口。以random模块为例，如下图3-14所示：
+然后输入“module name.”并按Tab键，你将看到这个模块所支持的所有接口。以random模块为例，结果如下图所示：
 
-.. image:: ../_static/images/c3/random..jpg
-  :scale: 50%
-  :align: center
+.. code-block::  C
+  :linenos:
 
-图3-14  random.(+Tab)
+  >>> import random
+  >>> random.
+  choice          getrandbits     randint         random
+  randrange       seed            uniform
 
 3. 绘图器
 -------------
@@ -149,7 +174,7 @@ BlueFi将会在控制台上输出内建的“random模块”所支持的所有�
   :scale: 39%
   :align: center
 
-图3-15  绘图器
+图3-11  绘图器
 
 上图中以一个简单的数值递增递减过程为例，示范如何使用绘图器来绘制对应的曲线。在上面的程序中，用到了for-in循环结构和range函数，
 这些内容在后续的第4章“Python编程语言”中会进行介绍，现在只需了解上述程序中的“for i in range(10)”的作用是令i的值，从0增加到9，

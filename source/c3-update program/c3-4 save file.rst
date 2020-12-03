@@ -11,7 +11,7 @@ BlueFi会自动软复位，并执行修改后的code.py或main.py程序。
   :scale: 39%
   :align: center
 
-图3-16  保存code.py
+图3-12  保存code.py
 
 尽管BlueFi内的文件会以一个可移动磁盘的形式出现在主机上，但与平常我们常见的可移动磁盘(U盘、MP3等)不同的是，BlueFi支持热插拔，
 可以直接将BlueFi与主机之间的连接断开，无需点击“弹出”选项，热插拔不会对BlueFi内保存的文件造成损失。
