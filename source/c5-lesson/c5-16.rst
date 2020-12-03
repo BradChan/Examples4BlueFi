@@ -142,19 +142,19 @@ MQTT的消息发布者/订阅者之间关系示意，如下图所示：
   :scale: 38%
   :align: center
 
-图5-9  mqttbox-创建
+图5-9  MQTTBox-创建
 
 .. image:: ../_static/images/c5/mqttbox_2.png
   :scale: 38%
   :align: center
 
-图5-10  mqttbox-设置
+图5-10  MQTTBox-设置
 
 .. image:: ../_static/images/c5/mqttbox_3.png
   :scale: 38%
   :align: center
 
-图5-11  mqttbox-订阅/发布
+图5-11  MQTTBox-订阅/发布
 
 其中的关键步骤如下：
 
@@ -170,7 +170,7 @@ MQTT的消息发布者/订阅者之间关系示意，如下图所示：
   :scale: 38%
   :align: center
 
-图5-12  mqttbox-发布/接收成功
+图5-12  MQTTBox-发布/接收成功
 
 现在可以确认你的电脑和BlueFi能够通过MQTT服务器(www.hiibotiot.com:2883)相互订阅消息。
 
