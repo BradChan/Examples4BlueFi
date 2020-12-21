@@ -36,6 +36,7 @@ BlueFi采用3D的动静态型加速度计，即使在静止状态，BlueFi的加
       show_data.show()
       time.sleep(0.1)
 
+程序中最重要的代码是第6行或第9行的“acce = sensors.acceleration”，其目的是读取当前加速度计三个方向上的数据并赋给acce。
 你可以尝试让BlueFi平躺、竖立、倒立、侧立等姿势 并观察三个加速度分量(acce[0]、acce[1]、acce[2])与姿态之间关系，
 并找出加速度每一个分量的最小值和最大值(加速度每一个分量的范围)。
 
