@@ -46,7 +46,7 @@
 如果你会使用AD、KiCad这类电路原理图绘制软件，你可以参考下面的电路原理图去进行绘制pcb板：
 
 .. image:: ../_static/images/c7/电路原理图.png
-  :scale: 40%
+  :scale: 55%
   :align: center
 
 图7-16 电路原理图
@@ -56,7 +56,7 @@
 本次项目中我们使用的是pcb板，将元器件焊上去之后的展示图如下所示：
 
 .. image:: ../_static/images/c7/pcb.png
-  :scale: 40%
+  :scale: 25%
   :align: center
 
 图7-17 pcb板

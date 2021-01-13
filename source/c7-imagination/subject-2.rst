@@ -240,7 +240,7 @@
 在本次项目中采用普通的I/O口直接驱动步进电机，因此需要用到步进电机驱动板来增强输出功率。步进电机驱动板与RobotBit扩展板的接线图如下所示例程序代码如下：
 
 .. image:: ../_static/images/c7/步进电机驱动板与Robotbit扩展板的接线图.png
-  :scale: 60%
+  :scale: 75%
   :align: center
 
 图7-10 步进电机驱动板与RobotBit扩展板的接线图
