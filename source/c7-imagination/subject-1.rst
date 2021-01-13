@@ -130,7 +130,7 @@
 如下图所示：
 
 .. image:: ../_static/images/c7/servo_xz和servo_yz.png
-  :scale: 40%
+  :scale: 50%
   :align: center
 
 图7-4 servo_xz和servo_yz

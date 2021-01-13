@@ -106,7 +106,7 @@
   carrun = False
 
   car.pixels.brightness = 0.1
-  car.pixels.fill((0,0,0)) # two pixels on the bottom set to RED
+  car.pixels.fill((0,0,0)) # two pixels on the bottom set to LED
   car.pixels.show()
   colors = [(255,0,0), (255,255,0), (0,255,0), (0,0,255)]
 
